@@ -1,5 +1,3 @@
-# etl/extract.py – Extract datasets from source locations
-
 import pandas as pd
 import os
 
@@ -24,10 +22,10 @@ def extract_data():
     cms_path = os.path.join(extracted_dir, "cms_data.csv")
 
     if not os.path.exists(appointments_path):
-        print(f"❌ appointments.csv not found, please put it in {extracted_dir}")
+        print(f"appointments.csv not found, please put it in {extracted_dir}")
         return {}
     if not os.path.exists(cms_path):
-        print(f"❌ cms_data.csv not found, please put it in {extracted_dir}")
+        print(f"cms_data.csv not found, please put it in {extracted_dir}")
         return {}
 
     try:
@@ -51,9 +49,9 @@ def extract_data():
             for chunk in pd.read_csv(cms_path, chunksize=chunksize, low_memory=False):
                 chunk = clean_column_names(chunk)
 
-                # 確保需要的欄位存在
+                
                 if not all(col in chunk.columns for col in rename_map.keys()):
-                    print("⚠️ Some fields are missing in this chunk. Skipping chunk.")
+                    print("Some fields are missing in this chunk. Skipping chunk.")
                     continue
 
                 filtered = chunk[chunk['rndrng_prvdr_state_abrvtn'] == 'MD']
@@ -68,7 +66,7 @@ def extract_data():
             cms_md_path = os.path.join(processed_dir, "cms_md_filtered.csv")
             df_cms_md.to_csv(cms_md_path, index=False)
 
-            print(f"✅ Extract completed, CMS (MD only) saved to {cms_md_path}")
+            print(f"Extract completed, CMS (MD only) saved to {cms_md_path}")
             return {
                 "appointments": df_appointments,
                 "cms": df_cms_md

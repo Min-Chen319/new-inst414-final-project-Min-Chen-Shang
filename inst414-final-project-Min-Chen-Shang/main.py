@@ -1,4 +1,3 @@
-# main.py
 # Entry point for the Patient No-Show Prediction Pipeline
 
 from etl.extract import extract_data
@@ -15,7 +14,7 @@ def main():
     raw_data = extract_data()
 
     if not raw_data or any(df.empty for df in raw_data.values()):
-        print("❌ Extraction failed or returned empty data. Stopping pipeline.")
+        print("Extraction failed or returned empty data. Stopping pipeline.")
         return
 
     processed_data = transform_data(raw_data)
