@@ -12,8 +12,13 @@ from vis.visualizations import generate_visualizations
 
 def main():
     print("Starting ETL pipeline...")
-    raw_data_paths = extract_data()
-    processed_data = transform_data(raw_data_paths)
+    raw_data = extract_data()
+
+    if not raw_data or any(df.empty for df in raw_data.values()):
+        print("❌ Extraction failed or returned empty data. Stopping pipeline.")
+        return
+
+    processed_data = transform_data(raw_data)
     load_data(processed_data)
 
     print("Running analysis...")
@@ -27,5 +32,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-#Remove cvs file to allow push
-#update 08/03
